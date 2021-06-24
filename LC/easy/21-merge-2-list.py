@@ -18,10 +18,10 @@ class Solution:
             return l2
         elif not l2:
             return l1
-        
+
         fin_list = None
-        
-        while l1 or l2:
+
+        while l1 and l2:
             if fin_list is None:
                 if l1.val < l2.val:
                     fin_list = ListNode(l1.val)
@@ -39,17 +39,9 @@ class Solution:
                 else:
                     temp.next = ListNode(l2.val)
                     l2 = l2.next
-           
-            # if one of the lists is empty, add the rest of the other
-            elif l1:
-                temp.next = l1
-                return fin_list 
-            else:
-                temp.next = l2
-                return fin_list
-            
-            temp = temp.next
 
+            temp = temp.next
+        temp.next = l1 or l2
         return fin_list
 
 
