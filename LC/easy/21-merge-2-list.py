@@ -14,19 +14,15 @@ class ListNode:
 
 class Solution:
     def mergeTwoLists(self, l1: ListNode, l2: ListNode) -> ListNode:
-        # node1 = l1.next
-        # node2 = l2.next
+        if not l1:
+            return l2
+        elif not l2:
+            return l1
+        
         fin_list = None
-
+        
         while l1 or l2:
-            if not fin_list:
-                if l1 and not l2:
-                    return l1
-                if l2 and not l1:
-                    return l2
-                if not (l1 and l2):
-                    return fin_list
-                
+            if fin_list is None:
                 if l1.val < l2.val:
                     fin_list = ListNode(l1.val)
                     l1 = l1.next
@@ -36,17 +32,20 @@ class Solution:
                 temp = fin_list
                 continue
 
-            if l1 and l2 and l1.val < l2.val:
-                temp.next = ListNode(l1.val)
-                l1 = l1.next
-            elif l1 and l2 and l2.val <= l1.val:
-                temp.next = ListNode(l2.val)
-                l2 = l2.next
-            elif not l1:
-                temp.next = l2
-                return fin_list 
-            elif not l2:
+            if l1 and l2:
+                if l1.val < l2.val:
+                    temp.next = ListNode(l1.val)
+                    l1 = l1.next
+                else:
+                    temp.next = ListNode(l2.val)
+                    l2 = l2.next
+           
+            # if one of the lists is empty, add the rest of the other
+            elif l1:
                 temp.next = l1
+                return fin_list 
+            else:
+                temp.next = l2
                 return fin_list
             
             temp = temp.next
