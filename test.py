@@ -7,3 +7,5 @@ b = x[j + 1 :]
 c = a + b
 
 json = {"a": "a", "b": "b", "c": "c"}
+
+print(x[-1])
