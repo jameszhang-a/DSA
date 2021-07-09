@@ -31,15 +31,9 @@ class Solution:
         l = 0
         h = len(arr)-1
 
-        # edge case
-        if arr[l] == tar or arr[h] == tar:
-            return 1
-
-        while l < h:
+        while l <= h:
             m = (l+h)//2
-            if tar == arr[l] or tar == arr[h]:
-                return 1
-            elif tar < arr[m]:
+            if tar < arr[m]:
                 h = m-1
             elif tar > arr[m]:
                 l = m+1
@@ -49,5 +43,6 @@ class Solution:
 
 
 sol = Solution()
-x = sol.intersection([1], [1])
+x = sol.intersection([1, 2, 2, 1],
+                     [2, 2])
 print(x)
