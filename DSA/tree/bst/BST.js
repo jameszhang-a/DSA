@@ -57,6 +57,11 @@ class BST {
     return root;
   }
 
+  /**
+   * Checks if a value exists in the tree
+   * @param {Number} val A number to search in the tree
+   * @returns True if the value exist, false otherwise
+   */
   contains(val) {
     let node = new Node(val);
 
@@ -68,6 +73,12 @@ class BST {
     return this.containsHelp(this.root, node);
   }
 
+  /**
+   * Recursive helper method for contains()
+   * @param {Node} root The root of the recurrsion
+   * @param {Node} node The value to check against
+   * @returns True if the value is found, false otherwise
+   */
   containsHelp(root, node) {
     // Can't find the value
     if (root === null) return false;
@@ -79,6 +90,10 @@ class BST {
     else if (node.val > root.val) return this.containsHelp(root.right, node);
   }
 
+  /**
+   * Finds the min value in the tree
+   * @returns The min value or null if the tree is empty
+   */
   findMin() {
     if (this.root === null) {
       console.log('Empty tree');
@@ -89,12 +104,21 @@ class BST {
     return this.findMinHelp(this.root);
   }
 
+  /**
+   * Recursive helper method for findMin()
+   * @param {Node} node The current node 
+   * @returns The min value
+   */
   findMinHelp(node) {
     if (node.left === null) return node.val;
 
     return this.findMinHelp(node.left);
   }
 
+  /**
+   * Finds the max value in the tree
+   * @returns The max value or null if the tree is empty
+   */
   findMax() {
     if (this.root === null) {
       console.log('Empty Tree');
@@ -105,6 +129,11 @@ class BST {
     return this.findMaxHelp(this.root);
   }
 
+  /**
+   * Recursive helper method for findMax()
+   * @param {Node} node The current node 
+   * @returns The max value
+   */
   findMaxHelp(node) {
     if (node.right === null) return node.val;
 
@@ -161,14 +190,18 @@ class BST {
     console.log(root.val);
   }
 
-  // Wrapper over print2DUtil()
+  /**
+   * Function to print binary tree in 2D
+   * It does reverse inorder traversal
+   */
   print2D(root) {
     // Pass initial space count as 0
     this.print2DUtil(root, 0);
   }
 
-  // Function to print binary tree in 2D
-  // It does reverse inorder traversal
+  /**
+   * Recursive helpter method for print2D
+   */
   print2DUtil(root, space) {
     // Base case
     if (root == null) return;
