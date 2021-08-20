@@ -7,6 +7,8 @@ class Node {
 }
 
 class BST {
+  COUNT = 5;
+
   constructor() {
     this.root = null;
     this.size = 0;
@@ -18,10 +20,17 @@ class BST {
    */
   insert(val) {
     let node = new Node(val);
+
+    // If the tree is empty
     if (this.root === null) {
       this.root = node;
       this.size = 1;
       return this;
+    }
+
+    if (this.contains(this.root, val)) {
+      console.log("Can't insert a dup!");
+      return null;
     }
 
     this.insertHelp(this.root, node);
@@ -46,6 +55,28 @@ class BST {
     }
 
     return root;
+  }
+
+  contains(val) {
+    let node = new Node(val);
+
+    if (this.root === null) {
+      console.log('Cant search empty tree');
+      return null;
+    }
+
+    return this.containsHelp(this.root, node);
+  }
+
+  containsHelp(root, node) {
+    // Can't find the value
+    if (root === null) return false;
+
+    // Found the value
+    if (root.val === node.val) return true;
+
+    if (node.val < root.val) return this.containsHelp(root.left, node);
+    else if (node.val > root.val) return this.containsHelp(root.right, node);
   }
 
   /**
@@ -97,6 +128,34 @@ class BST {
     this.postOrder(root.right);
     console.log(root.val);
   }
+
+  // Wrapper over print2DUtil()
+  print2D(root) {
+    // Pass initial space count as 0
+    this.print2DUtil(root, 0);
+  }
+
+  // Function to print binary tree in 2D
+  // It does reverse inorder traversal
+  print2DUtil(root, space) {
+    // Base case
+    if (root == null) return;
+
+    // Increase distance between levels
+    space += this.COUNT;
+
+    // Process right child first
+    this.print2DUtil(root.right, space);
+
+    // Print current node after space count
+    let str = '';
+    str += '\n';
+    for (let i = this.COUNT; i < space; i++) str += '  ';
+    str = str + root.val + '\n';
+    console.log(str);
+    // Process left child
+    this.print2DUtil(root.left, space);
+  }
 }
 
 const tree = new BST();
@@ -112,16 +171,20 @@ tree.insert(4);
 tree.insert(7);
 tree.insert(9);
 
-console.log('In-Order: ');
-tree.inOrder(tree.root);
-
-console.log('Pre-Order: ');
-tree.preOrder(tree.root);
-
-console.log('Post-Order: ');
-tree.postOrder(tree.root);
 /**
  *      5
  *   3      8
  *  2  4   7  9
  */
+
+console.log(tree.contains(-1));
+tree.print2D(tree.root);
+
+// console.log('In-Order: ');
+// tree.inOrder(tree.root);
+
+// console.log('Pre-Order: ');
+// tree.preOrder(tree.root);
+
+// console.log('Post-Order: ');
+// tree.postOrder(tree.root);
