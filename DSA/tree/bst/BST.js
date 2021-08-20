@@ -79,6 +79,38 @@ class BST {
     else if (node.val > root.val) return this.containsHelp(root.right, node);
   }
 
+  findMin() {
+    if (this.root === null) {
+      console.log('Empty tree');
+      return null;
+    }
+    if (this.isLeaf(this.root)) return this.root.val;
+
+    return this.findMinHelp(this.root);
+  }
+
+  findMinHelp(node) {
+    if (node.left === null) return node.val;
+
+    return this.findMinHelp(node.left);
+  }
+
+  findMax() {
+    if (this.root === null) {
+      console.log('Empty Tree');
+      return null;
+    }
+    if (this.isLeaf(this.root)) return this.root.val;
+
+    return this.findMaxHelp(this.root);
+  }
+
+  findMaxHelp(node) {
+    if (node.right === null) return node.val;
+
+    return this.findMaxHelp(node.right);
+  }
+
   /**
    * Checks if a node is the leaf
    * @param {Node} node The node to chedk on
@@ -188,3 +220,6 @@ tree.print2D(tree.root);
 
 // console.log('Post-Order: ');
 // tree.postOrder(tree.root);
+
+console.log(`Min ${tree.findMin()}`);
+console.log(`Max ${tree.findMax()}`);
