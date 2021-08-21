@@ -23,9 +23,6 @@ class MinHeap {
     // Edge case
     if (arr.length === 1 || arr.length === 0) return arr;
 
-    //  0   1   2   3   4   5   6   7   8   9
-    // [5, 14, 23, 32, 41, 87, 90, 50, 64, 53]      size: 10
-
     // Calculates the last parent node, and begin heapify
     const { idx: mid } = this.getParent(arr.length - 1);
 
@@ -72,17 +69,20 @@ class MinHeap {
       return null;
     }
 
+    // Start with the new value at the end
     this.heap.push(num);
 
     // Current size is the location of a new insert
-    let curr = this.heap.length;
+    let curr = this.heap.length - 1;
 
+    // bubble up
     while (num < this.getParent(curr).parent) {
-      // bubble up
+      // Swap values between the current and the parent
       const { idx, parent } = this.getParent(curr);
       this.heap[idx] = num;
       this.heap[curr] = parent;
 
+      // Update new location of the new value
       curr = idx;
     }
   }
@@ -148,42 +148,8 @@ class MinHeap {
     const end = this.heap.pop();
     this.heap[0] = end;
 
-    // Initializing the while loop
-    let currIdx = 0;
-    let { child: left1 } = this.getLeft(currIdx);
-    let { child: right1 } = this.getRight(currIdx);
-
-    // Loop continues until the element is no longer larger than its children
-    while (this.heap[currIdx] > left1 || this.heap[currIdx] > right1) {
-      const { idx: leftIdx, child: left } = this.getLeft(currIdx);
-      const { idx: rightIdx, child: right } = this.getRight(currIdx);
-      const curr = this.heap[currIdx];
-
-      // find the smallest value to swap with
-      let smallest = curr;
-      let smallIdx = currIdx;
-
-      // If the left child is smaller
-      if (curr > left) {
-        smallest = left;
-        smallIdx = leftIdx;
-      }
-
-      // If the right child is smaller
-      if (curr > right && right < left) {
-        smallest = right;
-        smallIdx = rightIdx;
-      }
-
-      // Swap the values
-      this.heap[smallIdx] = curr;
-      this.heap[currIdx] = smallest;
-
-      // Update index and loop condition
-      currIdx = smallIdx;
-      left1 = left;
-      right1 = right;
-    }
+    // Heapify from the top
+    this.heapify(this.heap, 0);
 
     return min;
   }
@@ -202,5 +168,13 @@ const arr = [ 5, 11, 9, 20, 2, 19, 3, 15, 12, 1 ];
 console.log(arr);
 
 const heap = new MinHeap(arr);
+
+console.log(heap);
+
+heap.removeMin();
+
+console.log(heap);
+
+heap.insert(0);
 
 console.log(heap);
