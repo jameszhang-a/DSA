@@ -43,15 +43,14 @@ class Solution:
         """
 
         fast, slow = head, head
-        for i in range(n):
+        for _ in range(n):
             fast = fast.next
 
-        if fast is None:
+        if not fast:
             return head.next
 
         while fast.next is not None:
-            fast = fast.next
-            slow = slow.next
+            fast, slow = fast.next, slow.next
 
         slow.next = slow.next.next
 
