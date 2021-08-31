@@ -36,69 +36,91 @@ class BST:
 
         return root
 
-    def in_order(self, root):
+    def in_order(self, root, list=None):
         """Traverses the tree in order:
         Left - Middle - Right
         """
         if root is None:
             return
 
-        self.in_order(root.left)
-        print(root)
-        self.in_order(root.right)
+        if list is None:
+            list = []
 
-    def pre_order(self, root):
+        self.in_order(root.left, list)
+        list.append(root.val)
+        self.in_order(root.right, list)
+
+        return list
+
+    def pre_order(self, root, list=None):
         """Traverses the tree in order:
         Middle - Left - Right
         """
         if root is None:
             return
 
-        print(root)
-        self.pre_order(root.left)
-        self.pre_order(root.right)
+        if list is None:
+            list = []
 
-    def post_order(self, root):
+        list.append(root.val)
+        self.pre_order(root.left, list)
+        self.pre_order(root.right, list)
+
+        return list
+
+    def post_order(self, root, list=None):
         """Traverses the tree in order:
         Left - Right - Middle
         """
         if root is None:
             return
 
-        self.post_order(root.left)
-        self.post_order(root.right)
-        print(root)
+        if list is None:
+            list = []
 
-    def leaf_only(self, root):
+        self.post_order(root.left, list)
+        self.post_order(root.right, list)
+        list.append(root.val)
+
+        return list
+
+    def leaf_only(self, root, list=None):
         if root is None:
             return
 
-        if self.is_leaf(root):
-            print(f"{root} is leaf")
+        if list is None:
+            list = []
 
-        self.leaf_only(root.left)
-        self.leaf_only(root.right)
+        if self.is_leaf(root):
+            list.append(root.val)
+
+        self.leaf_only(root.left, list)
+        self.leaf_only(root.right, list)
+        return list
 
     def is_leaf(self, root):
         if root is None:
             return False
 
-        if (root.left and root.right) is None:
+        if root.left is None and root.right is None:
             return True
         return False
 
     def level_order(self, root):
         """Same thing as BFS basically"""
         queue = [root]
+        visited = []
 
         while queue:
             curr = queue.pop(0)
-            print(curr)
+            visited.append(curr.val)
 
             if curr.left:
                 queue.append(curr.left)
             if curr.right:
                 queue.append(curr.right)
+
+        return visited
 
     def print2D(self):
         self.print2DUtil(self.root, 0)
@@ -129,26 +151,26 @@ if __name__ == "__main__":
     bst.insert(5)
     bst.insert(3)
     bst.insert(8)
-    bst.insert(2)
+    # bst.insert(2)
     bst.insert(4)
-    bst.insert(7)
+    # bst.insert(7)
     bst.insert(9)
     bst.print2D()
 
     print("InOrder")
-    bst.in_order(bst.root)
+    print(bst.in_order(bst.root), "\n")
 
     print("PreOrder:")
-    bst.pre_order(bst.root)
+    print(bst.pre_order(bst.root), "\n")
 
     print("PostOrder:")
-    bst.post_order(bst.root)
+    print(bst.post_order(bst.root), "\n")
 
     print("Leaf Only:")
-    bst.leaf_only(bst.root)
+    print(bst.leaf_only(bst.root), "\n")
 
     print("Level Order:")
-    bst.level_order(bst.root)
+    print(bst.level_order(bst.root), "\n")
 
 """
 const tree = new BST();
