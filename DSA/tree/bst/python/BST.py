@@ -69,6 +69,37 @@ class BST:
         self.post_order(root.right)
         print(root)
 
+    def leaf_only(self, root):
+        if root is None:
+            return
+
+        if self.is_leaf(root):
+            print(f"{root} is leaf")
+
+        self.leaf_only(root.left)
+        self.leaf_only(root.right)
+
+    def is_leaf(self, root):
+        if root is None:
+            return False
+
+        if (root.left and root.right) is None:
+            return True
+        return False
+
+    def level_order(self, root):
+        """Same thing as BFS basically"""
+        queue = [root]
+
+        while queue:
+            curr = queue.pop(0)
+            print(curr)
+
+            if curr.left:
+                queue.append(curr.left)
+            if curr.right:
+                queue.append(curr.right)
+
     def print2D(self):
         self.print2DUtil(self.root, 0)
 
@@ -112,6 +143,12 @@ if __name__ == "__main__":
 
     print("PostOrder:")
     bst.post_order(bst.root)
+
+    print("Leaf Only:")
+    bst.leaf_only(bst.root)
+
+    print("Level Order:")
+    bst.level_order(bst.root)
 
 """
 const tree = new BST();
