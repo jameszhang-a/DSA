@@ -1,12 +1,11 @@
 def twoSum(nums, target: int):
-    dict = {}
-    for i in range(len(nums)):
-        if nums[i] in dict:
-            return [dict[nums[i]], i]
-        dict[nums[i]] = i
-        diff = target-nums[i]
-        
-        if diff in dict and dict[diff] != i:
-            return [dict[diff], i]
+    tb = {}
+    for i, num in enumerate(nums):
+        diff = target - num
+        if diff in tb:
+            return [tb[diff], i]
+        else:
+            tb[num] = i
+
 
 print(twoSum([3, 3], 6))
