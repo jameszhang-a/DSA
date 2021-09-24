@@ -18,39 +18,35 @@ class Node:
 
 
 def rotateRight(head, k: int):
-    tail, new_tail = head, head
-    size = 1
-    while tail and tail.next:
+    """Turn the list into a circle, then break the circle"""
+
+    if not head:
+        return None
+
+    size, tail = 1, head
+    while tail.next:
         tail = tail.next
         size += 1
 
-    print(f"size of list: {size}")
+    tail.next = head  # now we have a circular list
 
-    # if list is 4, and shift 5, same as shift 1
-    offset = k % size
-    print(f"Offset is: {offset}")
-
-    # edge case
-    if offset == 0:
+    rotate = k % size
+    if rotate == 0:
+        tail.next = None
         return head
 
-    tail_pos = size - offset - 1
-    print(f"New tail is at: {tail_pos}")
+    # get the node before the rotate position
+    temp = head
+    for _ in range(size - rotate - 1):
+        temp = temp.next
 
-    for i in range(0, tail_pos):
-        new_tail = new_tail.next
-
-    print(tail.val)
-    old_head = head
-    head = new_tail.next
-    new_tail.next = None
-    tail.next = old_head
-
+    head = temp.next
+    temp.next = None
     return head
 
 
-head = Node(0)
-head.next = Node(1)
-head.next.next = Node(2)
+head = Node(1)
+# head.next = Node(1)
+# head.next.next = Node(2)
 
-rotateRight(head, 4)
+print(rotateRight(head, 0).val)
