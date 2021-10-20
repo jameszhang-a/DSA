@@ -38,9 +38,52 @@ def brute_force(items, profits, weights, cap):
 
         return max(adding, skipping)
 
+    # call our recursive function
     return recur(profits, weights, cap, 0)
+
+
+def top_down(items, profits, weights, cap):
+    """
+    Top down memoizaiton approach, reducing repeated work
+    runtime: O(n * c), where n is the number of items, and c is the capacity
+    This is due to our memo holds all index and capacity pairs, so it can't take longer than that
+
+    Memory is similar: O(n*c) + O(n) for the recursive call stack
+    """
+    dp = {}
+
+    def recur(profits, weights, cap, idx, dp):
+
+        # Base case
+        if idx >= len(profits):
+            return 0
+
+        # Memoization
+        # if we have seen the problem before
+        key = f"{idx},{cap}"
+        if key in dp:
+            return dp[key]
+
+        adding = 0
+        curr_weight = weights[idx]
+
+        # If adding the new item
+        if curr_weight <= cap:
+            new_capicity = cap - curr_weight
+            # Adding the profit of the new item
+            adding = profits[idx] + recur(profits, weights, new_capicity, idx + 1, dp)
+
+        # If skipping the new item
+        skipping = recur(profits, weights, cap, idx + 1, dp)
+
+        dp[key] = max(skipping, adding)
+        return dp[key]
+
+    return recur(profits, weights, cap, 0, dp)
 
 
 print(
     brute_force(["Apple", "Orange", "Banana", "Melon"], [1, 6, 10, 16], [1, 2, 3, 5], 6)
 )
+
+print(top_down(["Apple", "Orange", "Banana", "Melon"], [1, 6, 10, 16], [1, 2, 3, 5], 6))
