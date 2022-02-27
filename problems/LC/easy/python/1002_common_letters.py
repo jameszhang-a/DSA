@@ -17,30 +17,42 @@ from collections import Counter
 
 
 class Solution:
+    # def commonChars(self, words: List[str]) -> List[str]:
+    #     """
+    #     Count frequency of letter in the first word
+    #     """
+    #     first = Counter(words[0])
+    #     print(first)
+
+    #     # {'l': 2, 'b': 1, 'e': 1, 'a': 1}
+    #     for i in range(1, len(words)):
+    #         word = words[i]
+    #         count = Counter(word)
+    #         for k in list(first):
+    #             if k not in word:
+    #                 del first[k]
+    #                 continue
+    #             else:
+    #                 first[k] = min(first[k], count[k])
+
+    #     res = list()
+    #     for k, v in first.items():
+    #         for i in range(v):
+    #             res.append(k)
+
+    #     print(list(first.elements()))
+    #     return res
+
     def commonChars(self, words: List[str]) -> List[str]:
         """
-        Count frequency of letter in the first word
+        Using counter and counter arithmetics
         """
-        first = Counter(words[0])
-        print(first)
+        count = Counter(words[0])
 
-        # {'l': 2, 'b': 1, 'e': 1, 'a': 1}
         for i in range(1, len(words)):
-            word = words[i]
-            count = Counter(word)
-            for k in list(first):
-                if k not in word:
-                    del first[k]
-                    continue
-                else:
-                    first[k] = min(first[k], count[k])
+            count &= Counter(words[i])
 
-        res = list()
-        for k, v in first.items():
-            for i in range(v):
-                res.append(k)
-
-        return res
+        return list(count.elements())
 
 
 sol = Solution()
