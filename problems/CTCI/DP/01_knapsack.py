@@ -82,8 +82,75 @@ def top_down(items, profits, weights, cap):
     return recur(profits, weights, cap, 0, dp)
 
 
-print(
-    brute_force(["Apple", "Orange", "Banana", "Melon"], [1, 6, 10, 16], [1, 2, 3, 5], 6)
-)
+# print(brute_force([], [1, 6, 10, 16], [1, 2, 3, 5], 6))
 
-print(top_down(["Apple", "Orange", "Banana", "Melon"], [1, 6, 10, 16], [1, 2, 3, 5], 6))
+# print(top_down([], [1, 6, 10, 16], [1, 2, 3, 5], 6))
+
+
+def solve_knapsack_bruteforce(profits, weights, capacity):
+    # TODO: Write your code here
+
+    def brute_force_recur(profits, weights, capacity, idx):
+
+        # base case
+        if idx >= len(profits) or capacity <= 0:
+            return 0
+
+        profit_with_item = 0
+        profit_wo_item = 0
+        if weights[idx] <= capacity:
+            profit_with_item += profits[idx] + brute_force_recur(
+                profits, weights, capacity - weights[idx], idx + 1
+            )
+        profit_wo_item += brute_force_recur(profits, weights, capacity, idx + 1)
+
+        return max(profit_with_item, profit_wo_item)
+
+    return brute_force_recur(profits, weights, capacity, 0)
+
+
+def solve_knapsack_dp(profits, weights, capacity):
+    """
+    using a 2D array to represent all states that have been seen
+    dp[idx][capacity] = profit
+    """
+    n = len(profits)
+    dp = [[-1] * (capacity + 1) for _ in range(n)]
+
+    def dp_recur(profits, weights, capacity, i, dp):
+        if capacity <= 0 or i >= len(profits):
+            return 0
+
+        # if we have seen this before
+        if next_profit := dp[i][capacity] != -1:
+            return next_profit
+
+        profits_with_item = 0
+        if weights[i] <= capacity:
+            new_capacity = capacity - weights[i]
+            profits_with_item += profits[i] + dp_recur(
+                profits, weights, new_capacity, i + 1, dp
+            )
+
+        profits_wo_item = dp_recur(profits, weights, capacity, i + 1, dp)
+
+        dp[i][capacity] = max(profits_with_item, profits_wo_item)
+
+        return dp[i][capacity]
+
+    return dp_recur(profits, weights, capacity, 0, dp)
+
+
+def main():
+    print("DP")
+    print(solve_knapsack_dp([1, 6, 10, 16], [1, 2, 3, 5], 5))
+    print(solve_knapsack_dp([1, 6, 10, 16], [1, 2, 3, 5], 6))
+    print(solve_knapsack_dp([1, 6, 10, 16], [1, 2, 3, 5], 7))
+
+    print("\nBrute Force")
+    print(solve_knapsack_bruteforce([1, 6, 10, 16], [1, 2, 3, 5], 5))
+    print(solve_knapsack_bruteforce([1, 6, 10, 16], [1, 2, 3, 5], 6))
+    print(solve_knapsack_bruteforce([1, 6, 10, 16], [1, 2, 3, 5], 7))
+
+
+main()
