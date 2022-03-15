@@ -8,6 +8,7 @@ Weights: { 2, 3, 1, 4 }
 Profits: { 4, 5, 3, 7 }
 Knapsack capacity: 5
 """
+from timeit import default_timer as timer
 
 
 def brute_force(items, profits, weights, cap):
@@ -159,21 +160,45 @@ def knapsack_bottom_up(profits, weights, capacity):
     return dp[i][j]
 
 
+def runtime(func, v, w, c, iter=100):
+    total_time = 0
+    for _ in range(iter):
+        start = timer()
+        func(v, w, c - 5)
+        func(v, w, c - 3)
+        func(v, w, c)
+        end = timer()
+
+        total_time += (end - start) * 1000
+
+    per_trial = total_time / iter
+
+    print(per_trial)
+
+
 def main():
-    print("DP")
-    print(solve_knapsack_dp([1, 6, 10, 16], [1, 2, 3, 5], 5))
-    print(solve_knapsack_dp([1, 6, 10, 16], [1, 2, 3, 5], 6))
-    print(solve_knapsack_dp([1, 6, 10, 16], [1, 2, 3, 5], 7))
+    v = [20, 5, 10, 40, 15, 25]
+    w = [1, 2, 3, 8, 7, 4]
+    c = 10
 
-    print("\nBrute Force")
-    print(solve_knapsack_bruteforce([1, 6, 10, 16], [1, 2, 3, 5], 5))
-    print(solve_knapsack_bruteforce([1, 6, 10, 16], [1, 2, 3, 5], 6))
-    print(solve_knapsack_bruteforce([1, 6, 10, 16], [1, 2, 3, 5], 7))
+    # print("DP")
+    # print(solve_knapsack_dp(v, w, c - 5))
+    # print(solve_knapsack_dp(v, w, c - 3))
+    # print(solve_knapsack_dp(v, w, c))
 
-    print("\nbottom up DP")
-    print(knapsack_bottom_up([1, 6, 10, 16], [1, 2, 3, 5], 5))
-    print(knapsack_bottom_up([1, 6, 10, 16], [1, 2, 3, 5], 6))
-    print(knapsack_bottom_up([1, 6, 10, 16], [1, 2, 3, 5], 7))
+    # print("\nBrute Force")
+    # print(solve_knapsack_bruteforce(v, w, c - 5))
+    # print(solve_knapsack_bruteforce(v, w, c - 3))
+    # print(solve_knapsack_bruteforce(v, w, c))
+
+    # print("\nbottom up DP")
+    # print(knapsack_bottom_up(v, w, c - 5))
+    # print(knapsack_bottom_up(v, w, c - 3))
+    # print(knapsack_bottom_up(v, w, c))
+
+    runtime(solve_knapsack_bruteforce, v, w, c)
+    runtime(solve_knapsack_dp, v, w, c)
+    runtime(knapsack_bottom_up, v, w, c)
 
 
 main()
