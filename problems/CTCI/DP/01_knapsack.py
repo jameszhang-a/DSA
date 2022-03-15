@@ -128,9 +128,7 @@ def solve_knapsack_dp(profits, weights, capacity):
         profits_with_item = 0
         if weights[i] <= capacity:
             new_capacity = capacity - weights[i]
-            profits_with_item += profits[i] + dp_recur(
-                profits, weights, new_capacity, i + 1, dp
-            )
+            profits_with_item += profits[i] + dp_recur(profits, weights, new_capacity, i + 1, dp)
 
         profits_wo_item = dp_recur(profits, weights, capacity, i + 1, dp)
 
@@ -139,6 +137,26 @@ def solve_knapsack_dp(profits, weights, capacity):
         return dp[i][capacity]
 
     return dp_recur(profits, weights, capacity, 0, dp)
+
+
+def knapsack_bottom_up(profits, weights, capacity):
+    # first initiate matrix
+    n = len(profits)
+    dp = [[0] * (capacity + 1) for _ in range(n)]
+
+    for i in range(n):
+        for j in range(capacity + 1):
+
+            if i == 0:
+                dp[0][j] = profits[0] if j >= weights[0] else 0
+                continue
+
+            without_new = dp[i - 1][j]
+            with_new = dp[i - 1][j - weights[i]] + profits[i] if j - weights[i] >= 0 else 0
+
+            dp[i][j] = max(without_new, with_new)
+
+    return dp[i][j]
 
 
 def main():
@@ -151,6 +169,11 @@ def main():
     print(solve_knapsack_bruteforce([1, 6, 10, 16], [1, 2, 3, 5], 5))
     print(solve_knapsack_bruteforce([1, 6, 10, 16], [1, 2, 3, 5], 6))
     print(solve_knapsack_bruteforce([1, 6, 10, 16], [1, 2, 3, 5], 7))
+
+    print("\nbottom up DP")
+    print(knapsack_bottom_up([1, 6, 10, 16], [1, 2, 3, 5], 5))
+    print(knapsack_bottom_up([1, 6, 10, 16], [1, 2, 3, 5], 6))
+    print(knapsack_bottom_up([1, 6, 10, 16], [1, 2, 3, 5], 7))
 
 
 main()
