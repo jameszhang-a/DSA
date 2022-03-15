@@ -160,6 +160,15 @@ def knapsack_bottom_up(profits, weights, capacity):
     return dp[i][j]
 
 
+def knapsack_optimized(values, weights, cap):
+    dp = [0 for _ in range(cap + 1)]
+
+    for i in range(len(values)):
+        for j in range(cap, weights[i] - 1, -1):
+            dp[j] = max(dp[j], dp[j - weights[i]] + values[i])
+    return dp[cap]
+
+
 def runtime(func, v, w, c, iter=100):
     total_time = 0
     for _ in range(iter):
@@ -174,6 +183,13 @@ def runtime(func, v, w, c, iter=100):
     per_trial = total_time / iter
 
     print(per_trial)
+
+
+def run_tests(v, w, c):
+    runtime(solve_knapsack_bruteforce, v, w, c)
+    runtime(solve_knapsack_dp, v, w, c)
+    runtime(knapsack_bottom_up, v, w, c)
+    runtime(knapsack_optimized, v, w, c)
 
 
 def main():
@@ -196,9 +212,9 @@ def main():
     # print(knapsack_bottom_up(v, w, c - 3))
     # print(knapsack_bottom_up(v, w, c))
 
-    runtime(solve_knapsack_bruteforce, v, w, c)
-    runtime(solve_knapsack_dp, v, w, c)
-    runtime(knapsack_bottom_up, v, w, c)
+    # print("\nKnapsack optimized")
+    # print(knapsack_optimized(v, w, c))
+    run_tests(v, w, c)
 
 
 main()
