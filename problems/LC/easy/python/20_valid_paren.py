@@ -30,13 +30,10 @@ class Solution:
             if c not in key:
                 stack.append(c)
             else:
-                if not stack:
-                    return False
-
-                if key[c] == stack[-1]:
+                if stack and key[c] == stack[-1]:
                     stack.pop()
                 else:
-                    stack.append(c)
+                    return False
 
         return not stack
 
