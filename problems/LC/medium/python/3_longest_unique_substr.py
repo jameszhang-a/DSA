@@ -30,9 +30,8 @@ class Solution:
                 r += 1
                 res = max(res, r - l)
             else:
-                while s[r] in charSet:
-                    charSet.remove(s[l])
-                    l += 1
+                charSet.remove(s[l])
+                l += 1
 
         return res
 
