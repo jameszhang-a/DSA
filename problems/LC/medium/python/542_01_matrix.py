@@ -26,6 +26,7 @@ Output:
        [1,2,1]
 """
 
+from collections import deque
 from typing import List
 from itertools import product
 
@@ -56,9 +57,47 @@ class Solution:
 
         return result
 
+    def updateMatrix_bfs(self, mat: List[List[int]]) -> List[List[int]]:
+        """
+        find all 0's process each 1's around them
+        bfs off of the 1's and update their distance
+        """
+
+        directions = ((0, 1), (0, -1), (1, 0), (-1, 0))
+
+        n, m = len(mat), len(mat[0])
+        q = deque([])
+
+        # first round, add all the 0's to q
+        # mark as unvisited with -1
+        for i, row in enumerate(mat):
+            for j, cell in enumerate(row):
+                if cell == 0:
+                    q.append((i, j))
+                else:
+                    mat[i][j] = -1
+
+        while q:
+            i, j = q.popleft()
+
+            for di, dj in directions:
+                new_i = i + di
+                new_j = j + dj
+
+                if (
+                    new_i >= 0
+                    and new_j >= 0
+                    and new_i < n
+                    and new_j < m
+                    and mat[new_i][new_j] == -1
+                ):
+                    mat[new_i][new_j] = mat[i][j] + 1
+                    q.append((new_i, new_j))
+        return mat
+
     def test(self, inputs, outputs):
         for i, input in enumerate(inputs):
-            if self.updateMatrix_dp(*input) != outputs[i]:
+            if self.updateMatrix_bfs(*input) != outputs[i]:
                 print(f"{i} failed")
                 continue
 
