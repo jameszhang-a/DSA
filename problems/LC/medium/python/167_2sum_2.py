@@ -46,7 +46,7 @@ class Solution:
             l, r = i + 1, len(numbers) - 1
 
             while l <= r:
-                m = (l + r) // 2
+                m = (l + r) >> 1
                 if diff == numbers[m]:
                     return [i + 1, m + 1]
 
@@ -57,10 +57,28 @@ class Solution:
 
         return [0, 0]
 
+    def twoSumBetter(self, numbers: List[int], target: int) -> List[int]:
+        """
+        Use two pointers, left and right, if sum of two pointer is less than target,
+        move left to the right, if sum of two pointer is greater than target, move
+        right to left
+        O(N)
+        """
+        l, r = 0, len(numbers) - 1
+
+        while l < r:
+            sum = numbers[l] + numbers[r]
+            if sum < target:
+                l += 1
+            elif sum > target:
+                r -= 1
+            else:
+                return [l + 1, r + 1]
+
     def test(self, inputs, outputs):
         for i, input in enumerate(inputs):
-            if self.twoSum(*input) != outputs[i]:
-                print(self.twoSum(*input))
+            if self.twoSumBetter(*input) != outputs[i]:
+                print(self.twoSumBetter(*input))
                 print(f"{i} failed")
                 continue
 
