@@ -30,7 +30,7 @@ Constraints:
 
 Follow up:
 
-Try to come up with as many solutions as you can. 
+Try to come up with as many solutions as you can.
 There are at least three different ways to solve this problem.
 Could you do it in -place with O(1) extra space?
 """
@@ -45,17 +45,17 @@ class Solution:
         Output:   [5,6,7,1,2,3,4]
         """
 
-        #* brute force method
+        # * brute force method
         # Save iterations
         k %= len(nums)
 
-        for i in range(k):
+        for _ in range(k):
             # moves last element to front
             prev = nums[-1]
             for j in range(len(nums)):
                 nums[j], prev = prev, nums[j]
 
-		#* pop and insert method
-		# runtime: 4397 ms, memory: 25.5 MB
-    	for i in range(k):
-           nums.insert(0, nums.pop())
+        # * pop and insert method
+        # runtime: 4397 ms, memory: 25.5 MB
+        for _ in range(k):
+            nums.insert(0, nums.pop())
