@@ -24,17 +24,17 @@ class Solution:
     def search(self, nums: List[int], target: int) -> int:
         l, r = 0, len(nums) - 1
 
-        while l <= r:
+        while l < r:
             # this prevents int overflow error if left and right are large enough
             mid = (l + r) >> 1
-            if target > nums[mid]:
-                l = mid + 1
-            elif target < nums[mid]:
+            if nums[mid] > target:
                 r = mid - 1
+            elif nums[mid] < target:
+                l = mid + 1
             else:
                 return mid
 
-        return -1
+        return l if nums[l] == target else -1
 
     def test(self, inputs, outputs):
         for i, input in enumerate(inputs):
@@ -49,11 +49,13 @@ input = [
     [[-1, 0, 3, 5, 9, 12], 13],
     [[-1, 0, 3, 5, 9, 12], 9],
     [[-1, 0, 3, 5, 9, 12], 2],
+    [[5], 5],
 ]
 expected = [
     -1,
     4,
     -1,
+    0,
 ]
 
 
