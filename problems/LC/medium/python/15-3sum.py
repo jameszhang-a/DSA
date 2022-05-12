@@ -30,35 +30,62 @@ from typing import List
 
 
 class Solution:
-    def bSearch(self, nums, tar):
-        l = 0
-        h = len(nums)-1
-        m = (h + l) // 2
-        
-        
-        return True
-
     def threeSum(self, nums: List[int]) -> List[List[int]]:
-
+        """
+        iterate through list with left pointer
+        use middle and right pointer to find if there's a complement
+        """
+        nums.sort()
+        n = len(nums)
         ans = []
-        # * Brute force, O(n^3)
-        # for x in range(len(nums)):
-        #     for y in range(x+1, len(nums)):
-        #         for k in range(y+1, len(nums)):
-        #             if (nums[x] + nums[y] + nums[k] == 0):
-        #                 ans.append([nums[x], nums[y], nums[k]])
+        for i in range(n - 1):
+            # skips duplicate triplets
+            if i > 0 and nums[i] == nums[i - 1]:
+                continue
 
-        # * Binary search
-        for i in range(len(nums)):
-            for j in range(i+1, len(nums)):
-                temp = nums[j+1:]
-                if third := self.bSearch(sorted(temp), -(nums[i] + nums[j])):
-                    print("Hello")
+            curr = nums[i]
+            m, r = i + 1, len(nums) - 1
+
+            while m < r:
+                sum = nums[m] + nums[r] + curr
+
+                if sum > 0:
+                    r -= 1
+                elif sum < 0:
+                    m += 1
                 else:
-                    print("No")
-
+                    ans.append([curr, nums[m], nums[r]])
+                    m += 1
+                    r -= 1
+                    while m < r and nums[m] == nums[m - 1]:
+                        m += 1
         return ans
+
+    def test(self, inputs, outputs):
+        for i, input in enumerate(inputs):
+            if (out := self.threeSum(*input)) != outputs[i]:
+                print(f"{i} failed")
+                print(f"Output:	 {out}")
+                print(f"Correct: {outputs[i]}")
+                print("")
+                continue
+
+            print(f"{i} pass")
+
+
+input = [
+    [[-1, 0, 1, 2, -1, -4]],
+    [[0, 0, 0, 0, 0]],
+    [[0]],
+    [[-2, 0, 1, 1, 2]],
+]
+expected = [
+    [[-1, -1, 2], [-1, 0, 1]],
+    [[0, 0, 0]],
+    [],
+    [[-2, 0, 2], [-2, 1, 1]],
+]
 
 
 sol = Solution()
-print(sol.threeSum([-1, 0, 1, 2, -1, -4]))
+sol.test(input, expected)
