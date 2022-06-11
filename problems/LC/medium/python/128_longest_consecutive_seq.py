@@ -27,24 +27,21 @@ class Solution:
     def longestConsecutive(self, nums: List[int]) -> int:
         """
         linear time, so no sorting
+        - hash: 100, 4,
         """
-        if not nums:
-            return 0
+        nums = set(nums)
+        longest = 0
 
-        nums.sort()
-        res, count = 1, 1
-        for i, num in enumerate(nums[:-1]):
-            if nums[i + 1] == num:
-                """Skip duplicates"""
-                res = max(res, count)
-                continue
+        for n in nums:
+            # beginning
+            if n - 1 not in nums:
+                y = n + 1
+                while y in nums:
+                    y += 1
 
-            if nums[i + 1] == num + 1:
-                count += 1
-                res = max(res, count)
-            else:
-                count = 1
-        return res
+                longest = max(y - n, longest)
+
+        return longest
 
     def test(self, inputs, outputs):
         for i, input in enumerate(inputs):
