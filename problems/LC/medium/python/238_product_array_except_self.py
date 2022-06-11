@@ -22,21 +22,20 @@ from typing import List
 class Solution:
     def productExceptSelf(self, nums: List[int]) -> List[int]:
         """
-        [1,2,3,4,5]
-
-        r:[1,1,2,6,24]
-        l:[120,60,20,5,1]
+        stuff
+        org: [1, 2, 3, 4]
+        L:   [1, 1, 2, 6]
+        R:   [24,12,4, 1]
         """
         n = len(nums)
-        r = [1] + ([0] * (n - 1))  # product of all elements to right of index
-        l = ([0] * (n - 1)) + [1]  # product of all elements to left of index
+
+        L, R = [1] + ((n - 1) * [0]), ((n - 1) * [0]) + [1]
 
         for i in range(1, n):
-            r[i] = r[i - 1] * nums[i - 1]  # each element in r is r[i-1] * nums[i-1]
-            l[-i - 1] = l[-i] * nums[-i]  # does the reverse for l
+            L[i] = L[i - 1] * nums[i - 1]
+            R[n - 1 - i] = R[n - i] * nums[n - i]
 
-        # multiplies left and right to get final product
-        return [r[i] * l[i] for i in range(n)]
+        return [L[i] * R[i] for i in range(n)]
 
     def test(self, inputs, outputs):
         for i, input in enumerate(inputs):
