@@ -35,11 +35,29 @@ class Solution:
         Time:   O(N)
         Space:  O(N)
         """
-        d = {}
-        for i in nums:
-            if i not in d:
-                d[i] = 1
-            else:
+        s = set()
+        for n in nums:
+            if n in s:
                 return True
+            s.add(n)
 
         return False
+
+    def test(self, inputs, outputs):
+        for i, input in enumerate(inputs):
+            if (out := self.containsDuplicate(*input)) != outputs[i]:
+                print(f"{i} failed")
+                print(f"Output:	 {out}")
+                print(f"Correct: {outputs[i]}")
+                print("")
+                continue
+
+            print(f"{i} pass")
+
+
+input = [[[1, 2, 3, 1]], [[1, 2, 3, 4]], [[1, 1, 1, 3, 3, 4, 3, 2, 4, 2]]]
+expected = [True, False, True]
+
+
+sol = Solution()
+sol.test(input, expected)
