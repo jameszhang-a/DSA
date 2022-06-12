@@ -31,13 +31,22 @@ from typing import List
 
 class Solution:
     def maxSubArray(self, nums: List[int]) -> int:
-        globalMax = localMax = nums[0]
+        """
+        two pointer
+        """
+        global_max, cur_max = nums[0], nums[0]
 
-        for num in nums[1:]:
-            localMax = max(num, localMax + num)
-            globalMax = max(globalMax, localMax)
+        for n in nums[1:]:
+            if cur_max < 0:
+                cur_max = n
+            else:
+                cur_max += n
 
-        return globalMax
+            # or more concisely
+            # cur_max = max(n, cur_max + n)
+            global_max = max(global_max, cur_max)
+
+        return global_max
 
     def test(self, inputs, outputs):
         for i, input in enumerate(inputs):
@@ -48,16 +57,8 @@ class Solution:
             print(f"{i} pass")
 
 
-input = [
-    [[-2, 1, -3, 4, -1, 2, 1, -5, 4]],
-    [[1]],
-    [[5, 4, -1, 7, 8]],
-]
-expected = [
-    6,
-    1,
-    23,
-]
+input = [[[-2, 1, -3, 4, -1, 2, 1, -5, 4]], [[1]], [[5, 4, -1, 7, 8]], [[1, 2]]]
+expected = [6, 1, 23, 3]
 
 
 sol = Solution()
