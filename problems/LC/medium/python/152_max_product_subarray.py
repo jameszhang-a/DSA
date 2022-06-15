@@ -43,15 +43,16 @@ class Solution:
         return global_max
 
     def maxProductDP(self, nums):
-        global_max = nums[0]
-        n = len(nums)
-        high, low = [nums[0]] + ([0] * (n - 1)), [nums[0]] + ([0] * (n - 1))
+        global_max, high, low = nums[0], nums[0], nums[0]
 
         for i in range(1, len(nums)):
-            high[i] = max(nums[i], high[i - 1] * nums[i], low[i - 1] * nums[i])
-            low[i] = min(nums[i], low[i - 1] * nums[i], high[i - 1] * nums[i])
+            # need temp variable because the 'low' comparison needs original high value
+            temp_high = max(nums[i], high * nums[i], low * nums[i])
+            low = min(nums[i], low * nums[i], high * nums[i])
 
-            global_max = max(global_max, high[i], low[i])
+            high = temp_high
+
+            global_max = max(global_max, high, low)
 
         return global_max
 
