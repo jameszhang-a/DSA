@@ -1,4 +1,8 @@
 class TreeNode:
+    """
+    run: export PYTHONPATH="${PYTHONPATH}:/Users/james/code/learn/coding-problems"
+    """
+
     def __init__(self, val, left=None, right=None):
         self.val = val
         self.left = left
