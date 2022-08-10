@@ -60,25 +60,23 @@ class Codec:
 
         mock_list = []
         for str in strs:
-            mock_list.append(f"{len(str)}#{str}")
+            mock_list.append(f"{len(str)}!{str}")
 
         return "".join(mock_list)
 
     def decode(self, s: str) -> List[str]:
         """Decodes a single string to a list of strings."""
-        res, i = [], 0
+        res = []
+        i = 0
+
         while i < len(s):
-            j = i
-
-            # there has to be a # somewhere
-            while s[j] != "#":
-                j += 1
-
-            length = int(s[i:j])  # calculates word length
-            res.append(s[j + 1 : j + 1 + length])  # grabs the word based on length
-
-            # update i
-            i = j + 1 + length
+            r = i
+            while s[r] != "!":
+                r += 1
+            l = int(s[i:r])
+            word = s[r + 1 : l + r + 1]
+            res.append(word)
+            i = r + l + 1
 
         return res
 
@@ -92,7 +90,7 @@ code = codec.encode(strs)
 print(code)
 print(codec.decode(code))
 
-strs = [""]
+strs = ["63/Rc", "h", "BmI3FS~J9#vmk", "7uBZ?7*/", "24h+X", "O "]
 
 codec = Codec()
 print(codec.decode(codec.encode(strs)))
