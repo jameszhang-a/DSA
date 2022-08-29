@@ -26,27 +26,21 @@ from typing import List
 
 class Solution:
     def maxArea(self, height: List[int]) -> int:
-        def area(l, r, h_l, h_r) -> int:
-            return (r - l) * min(h_l, h_r)
+        # start on outer most walls, greedily shrink the side that creates the
+        # most area
+        def area(i, j):
+            return (j - i) * min(height[i], height[j])
 
-        n = len(height)
-        if n < 1:
-            return 0
-
-        l, r = 0, n - 1
-
-        max_water = 0
-
-        while l != r:
-            cur_water = area(l, r, height[l], height[r])
-            max_water = max(max_water, cur_water)
-
-            if height[l] <= height[r]:
-                l += 1
-            else:
+        l, r = 0, len(height) - 1
+        res = 0
+        while l < r:
+            res = max(res, area(l, r))
+            if height[r] < height[l]:
                 r -= 1
+            else:
+                l += 1
 
-        return max_water
+        return res
 
     def test(self, inputs, outputs):
         for i, input in enumerate(inputs):
@@ -65,8 +59,9 @@ input = [
     [[1, 1]],
     [[1, 3, 5, 7, 9]],
     [[9, 7, 5, 3, 1]],
+    [[1, 3, 2, 5, 25, 24, 5]],
 ]
-expected = [49, 1, 10, 10]
+expected = [49, 1, 10, 10, 24]
 
 
 sol = Solution()
