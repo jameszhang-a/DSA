@@ -124,7 +124,7 @@ class UndergroundSystem:
             return
 
         # calculate key and duration of trips
-        key = f'{startTrip["start"]}-{stationName}'
+        key = (startTrip["start"], stationName)
         duration = t - startTrip["start_time"]
 
         # insert data into trop table
@@ -138,7 +138,7 @@ class UndergroundSystem:
         del self.checkInTb[id]
 
     def getAverageTime(self, startStation: str, endStation: str) -> float:
-        key = f"{startStation}-{endStation}"
+        key = (startStation, endStation)
 
         if (trip := self.tripTb.get(key)) is None:
             print("can't get average")
