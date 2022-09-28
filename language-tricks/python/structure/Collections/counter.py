@@ -12,6 +12,19 @@ count = Counter(word)  # returns a Counter object, basically a dict
 to_dict = dict(count)  # {'i': 4, 's': 4, 'p': 2, 'm': 1}
 to_list = list(count)  # ['m', 'i', 's', 'p']
 
+
+#######################
+### if a contains b ###
+#######################
+
+counter_1 = Counter("ababa")
+counter_2 = Counter("abb")
+
+# to check if counter 1 contains all of counter 2
+counter_2 - counter_1
+
+print(not (counter_2 - counter_1))  # true, counter 1 does contain 2
+
 ######################
 ### some functions ###
 ######################
