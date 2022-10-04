@@ -43,9 +43,23 @@ class Solution:
 
         return longest
 
+    def longestConsecutive_v2(self, nums: List[int]) -> int:
+        seen = set(nums)
+        longest = 0
+
+        for num in nums:
+            if num + 1 not in seen:
+                prev = num - 1
+                while prev in seen:
+                    prev -= 1
+
+                longest = max(longest, num - prev)
+
+        return longest
+
     def test(self, inputs, outputs):
         for i, input in enumerate(inputs):
-            if (out := self.longestConsecutive(*input)) != outputs[i]:
+            if (out := self.longestConsecutive_v2(*input)) != outputs[i]:
                 print(f"{i} failed")
                 print(f"Output:	 {out}")
                 print(f"Correct: {outputs[i]}")
