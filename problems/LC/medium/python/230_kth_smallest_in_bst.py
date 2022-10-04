@@ -23,18 +23,18 @@ need to find the kth smallest frequently, how would you optimize?
 # Definition for a binary tree node.
 class TreeNode:
     def __init__(self, val=0, left=None, right=None):
-        self.val = val
-        self.left = left
-        self.right = right
+        self.val: int = val
+        self.left: TreeNode = left
+        self.right: TreeNode = right
 
 
 from collections import deque
-from typing import Optional
+from typing import List, Optional
 
 
 class Solution:
     def kthSmallest(self, root: Optional[TreeNode], k: int) -> int:
-        stack = []
+        stack: List[TreeNode] = []
         i = 1
         while root or stack:
             while root:
