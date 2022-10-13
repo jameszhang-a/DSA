@@ -47,10 +47,26 @@ class Solution:
 
         WE DON'T GET THE PARENT NODE
 
-        delete the next node instead
-        """
-        node.val = node.next.val
-        temp_node = node.next.next
+        4 -> 5 -> 1 -> 9
+        4 -> 1 -> 9
 
-        node.next.next = None
-        node.next = temp_node
+        move everything back one
+        """
+        next_node = node.next
+        if next_node:
+            node.val = next_node.val
+        node.next = node.next.next
+
+
+S = Solution()
+
+node4 = ListNode(4)
+node5 = ListNode(5)
+node1 = ListNode(1)
+node9 = ListNode(9)
+
+node4.next = node5
+node5.next = node1
+node1.next = node9
+
+print(S.deleteNode(node5))
