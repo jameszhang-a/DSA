@@ -10,10 +10,18 @@ MUST be in order, or the groups are messed up
 
 a = [1, 2, 1, 3, 3, 4, 4, 4, 1]
 
+
 for i in groupby(a):
     print(i)
     x, y = i
     print(x, list(y))
+
+
+s = "aaabbcccaaaac"
+
+# counts how many times each char appears
+for group in groupby(s):
+    print(f"{group[0]} = {len(list(group[1]))}")
 
 """
 result:
