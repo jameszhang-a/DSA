@@ -11,13 +11,19 @@ class NewArray<T> {
         return this.elements[0];
     }
 
-    map(callback: (value: T, index: number, array: T[]) => T): T[] {
-        const res: T[] = [];
+    map(
+        callback: (value: T, index: number, array: T[]) => T,
+        thisArg?: any
+    ): T[] {
+        const res = new Array(this.length);
 
         for (let i = 0; i < this.length; i++) {
             const ele = this.elements[i];
-            res.push(callback(ele, i, this.elements));
+            if (Object.hasOwn(this.elements, i)) {
+                res[i] = callback.call(thisArg, ele, i, this.elements);
+            }
         }
+
         return res;
     }
 
@@ -47,7 +53,7 @@ class NewArray<T> {
 const newArr = new NewArray([0, "a", 1, "b", , "x", "y", "", "z"]);
 
 console.log("new arr:", newArr.toString());
-console.log(newArr.map((val, i) => val ?? "" + i));
+console.log(newArr.map((val, i) => `${val ?? ""}` + i));
 console.log(
     "filter:",
     newArr.filter((x) => {
