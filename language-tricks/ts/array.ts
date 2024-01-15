@@ -13,8 +13,10 @@ class NewArray<T> {
 
     map(callback: (value: T, index: number, array: T[]) => T): T[] {
         const res: T[] = [];
+
         for (let i = 0; i < this.length; i++) {
-            res.push(callback(this.elements[i], i, this.elements));
+            const ele = this.elements[i];
+            res.push(callback(ele, i, this.elements));
         }
         return res;
     }
@@ -28,7 +30,6 @@ class NewArray<T> {
                 res.push(ele);
             }
         }
-
         return res;
     }
 
